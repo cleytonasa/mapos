@@ -38,12 +38,12 @@ $totalProdutos = 0; ?>
                                     <tr>
                                         <td colspan="5" class="alert">Você precisa configurar os dados do emitente. >>><a href="<?php echo base_url(); ?>index.php/mapos/emitente">Configurar</a>
                                             <<<</td> </tr> <?php } else { ?> 
-                                    <td style="width: 25% ;text-align: center" ><img src=" <?php echo $emitente[0]->url_logo; ?> " style="max-height: 100px"></td>
+                                    <td style="width: 25% ;text-align: center" ><img src=" <?php echo $emitente->url_logo; ?> " style="max-height: 100px"></td>
                                     <tr>
                                         
                                         <td colspan="5" style="text-align: center">
-                                            <span style="font-size: 12px; ">CNPJ: <?php echo $emitente[0]->cnpj; ?> </br>
-                                                <?php echo $emitente[0]->rua . ', ' . $emitente[0]->numero . ' ' . $emitente[0]->bairro . ' -  ' . $emitente[0]->cidade . ' - ' . $emitente[0]->uf; ?> </span> </br> <span>Fone: <?php echo $emitente[0]->telefone; ?></span></td>
+                                            <span style="font-size: 12px; ">CNPJ: <?php echo $emitente->cnpj; ?> </br>
+                                                <?php echo $emitente->rua . ', ' . $emitente->numero . ' ' . $emitente->bairro . ' -  ' . $emitente->cidade . ' - ' . $emitente->uf; ?> </span> </br> <span>Fone: <?php echo $emitente->telefone; ?></span></td>
                                     </tr>
                                     <tr>
                                         <td style="width: 100%; font-size: 15px;"><b>N° OS:</b> <span><?php echo $result->idOs ?></span><span style="padding-left: 5%;"><b>Emissão:</b> <?php echo date('d/m/Y') ?></span></td>
@@ -239,7 +239,7 @@ $totalProdutos = 0; ?>
                       
                         <!-- Via Da Empresa  -->
                         <?php $totalServico = 0;
-                        $totalProdutos = 0; ?>
+$totalProdutos = 0; ?>
                     <div id="ViaEmpresa" <?php echo (!$configuration['control_2vias']) ? "style='display: none;'" : "style='display: block;'" ?>>
                         <div class="invoice-head" style="margin-bottom: 0">
 
@@ -252,12 +252,12 @@ $totalProdutos = 0; ?>
                                 <tr>
                                     <td colspan="5" class="alert">Você precisa configurar os dados do emitente. >>><a href="<?php echo base_url(); ?>index.php/mapos/emitente">Configurar</a>
                                         <<<</td> </tr> <?php } else { ?> 
-                                <td style="width: 25% ;text-align: center" ><img src=" <?php echo $emitente[0]->url_logo; ?> " style="max-height: 100px"></td>
+                                <td style="width: 25% ;text-align: center" ><img src=" <?php echo $emitente->url_logo; ?> " style="max-height: 100px"></td>
                                 <tr>
                                     
                                     <td colspan="5" style="text-align: center">
-                                        <span style="font-size: 12px; ">CNPJ: <?php echo $emitente[0]->cnpj; ?> </br>
-                                            <?php echo $emitente[0]->rua . ', ' . $emitente[0]->numero . ' ' . $emitente[0]->bairro . ' -  ' . $emitente[0]->cidade . ' - ' . $emitente[0]->uf; ?> </span> </br> <span>Fone: <?php echo $emitente[0]->telefone; ?></span></td>
+                                        <span style="font-size: 12px; ">CNPJ: <?php echo $emitente->cnpj; ?> </br>
+                                            <?php echo $emitente->rua . ', ' . $emitente->numero . ' ' . $emitente->bairro . ' -  ' . $emitente->cidade . ' - ' . $emitente->uf; ?> </span> </br> <span>Fone: <?php echo $emitente->telefone; ?></span></td>
                                 </tr>
                                 <tr>
                                     <td style="width: 100%; font-size: 15px;"><b>N° OS:</b> <span><?php echo $result->idOs ?></span><span style="padding-left: 5%;"><b>Emissão:</b> <?php echo date('d/m/Y') ?></span></td>
@@ -374,15 +374,15 @@ $totalProdutos = 0; ?>
                                         </thead>
                                         <tbody>
                                             <?php
-                                            foreach ($produtos as $p) {
-                                                $totalProdutos = $totalProdutos + $p->subTotal;
-                                                echo '<tr>';
-                                                echo '<td>' . $p->quantidade . '</td>';
-                                                echo '<td>' . $p->descricao . '</td>';
-                                                echo '<td>R$ ' . $p->preco ?: $p->precoVenda . '</td>';
-                                                echo '<td>R$ ' . number_format($p->subTotal, 2, ',', '.') . '</td>';
-                                                echo '</tr>';
-                                            } ?>
+                    foreach ($produtos as $p) {
+                        $totalProdutos = $totalProdutos + $p->subTotal;
+                        echo '<tr>';
+                        echo '<td>' . $p->quantidade . '</td>';
+                        echo '<td>' . $p->descricao . '</td>';
+                        echo '<td>R$ ' . $p->preco ?: $p->precoVenda . '</td>';
+                        echo '<td>R$ ' . number_format($p->subTotal, 2, ',', '.') . '</td>';
+                        echo '</tr>';
+                    } ?>
 
                                             <tr>
                                                 <td colspan="3" style="text-align: right"><strong>Total:</strong></td>
@@ -404,7 +404,7 @@ $totalProdutos = 0; ?>
                                         </thead>
                                         <tbody>
                                             <?php
-                                            setlocale(LC_MONETARY, 'en_US');
+                    setlocale(LC_MONETARY, 'en_US');
                                     foreach ($servicos as $s) {
                                         $preco = $s->preco ?: $s->precoVenda;
                                         $subtotal = $preco * ($s->quantidade ?: 1);
