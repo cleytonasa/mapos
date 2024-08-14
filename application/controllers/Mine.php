@@ -239,15 +239,34 @@ class Mine extends CI_Controller
             if ($cliente) {
                 // Verificar credenciais do usuário
                 if (password_verify($password, $cliente->senha)) {
-                    $session_mine_data = ['nome' => $cliente->nomeCliente, 'cliente_id' => $cliente->idClientes, 'email' => $cliente->email, 'conectado' => true, 'isCliente' => true];
+                    $session_mine_data = [
+                        'nome' => $cliente->nomeCliente, 
+                        'cliente_id' => $cliente->idClientes, 
+                        'email' => $cliente->email, 
+                        'conectado' => true, 
+                        'isCliente' => true
+                    ];
                     $this->session->set_userdata($session_mine_data);
                     log_info($_SERVER['REMOTE_ADDR'] . ' Efetuou login no sistema');
+
+                    // Registrar login na auditoria
+                    $this->load->model('Audit_model');
+                    $log_data = [
+                        'usuario' => $cliente->nomeCliente,
+                        'tarefa' => 'Cliente ' . $cliente->nomeCliente . ' efetuou login',
+                        'data' => date('Y-m-d'),
+                        'hora' => date('H:i:s'),
+                        'ip' => $_SERVER['REMOTE_ADDR']
+                    ];
+
+                    $this->Audit_model->add($log_data);
+
                     echo json_encode(['result' => true]);
                 } else {
                     echo json_encode(['result' => false, 'message' => 'Os dados de acesso estão incorretos.', 'MAPOS_TOKEN' => $this->security->get_csrf_hash()]);
                 }
             } else {
-                echo json_encode(['result' => false, 'message' => 'Usuário não encontrado, verifique se suas credenciais estão corretass.', 'MAPOS_TOKEN' => $this->security->get_csrf_hash()]);
+                echo json_encode(['result' => false, 'message' => 'Usuário não encontrado, verifique se suas credenciais estão corretas.', 'MAPOS_TOKEN' => $this->security->get_csrf_hash()]);
             }
         }
     }
@@ -645,9 +664,22 @@ class Mine extends CI_Controller
 
         $data['menuVendas'] = 'vendas';
         $data['custom_error'] = '';
+        $this->CI = &get_instance();
+        $this->CI->load->database();
+        
+        
         $this->load->model('mapos_model');
+        $this->load->model('os_model');
+        $data['pix_key'] = $this->CI->db->get_where('configuracoes', ['config' => 'pix_key'])->row_object()->valor;
+        $data['emitente'] = $this->mapos_model->getEmitente();
+        $data['qrCode'] = $this->os_model->getQrCode(
+            $id,
+            $data['pix_key'],
+            $data['emitente']
+        );
+        $data['chaveFormatada'] = $this->formatarChave($data['pix_key']);
+        
         $this->load->model('vendas_model');
-
         $data['result'] = $this->vendas_model->getById($this->uri->segment(3));
         $data['produtos'] = $this->vendas_model->getProdutos($this->uri->segment(3));
         $data['emitente'] = $this->mapos_model->getEmitente();
@@ -670,11 +702,21 @@ class Mine extends CI_Controller
 
         $data['menuVendas'] = 'vendas';
         $data['custom_error'] = '';
+        $this->CI = &get_instance();
+        $this->CI->load->database();
         $this->load->model('mapos_model');
         $this->load->model('vendas_model');
+        $this->load->model('os_model');
         $data['result'] = $this->vendas_model->getById($this->uri->segment(3));
         $data['produtos'] = $this->vendas_model->getProdutos($this->uri->segment(3));
         $data['emitente'] = $this->mapos_model->getEmitente();
+        $data['pix_key'] = $this->CI->db->get_where('configuracoes', ['config' => 'pix_key'])->row_object()->valor;
+        $data['qrCode'] = $this->os_model->getQrCode(
+            $id,
+            $data['pix_key'],
+            $data['emitente']
+        );
+        $data['chaveFormatada'] = $this->formatarChave($data['pix_key']);
 
         if ($data['result']->clientes_id != $this->session->userdata('cliente_id')) {
             $this->session->set_flashdata('error', 'Esta OS não pertence ao cliente logado.');

@@ -441,6 +441,8 @@ abstract class REST_Controller extends CI_Controller
 
         $this->preflight_checks();
 
+        $this->config->set_item('token_header', 'Authorization');
+
         // Set the default value of global xss filtering. Same approach as CodeIgniter 3
         $this->_enable_xss = ($this->config->item('global_xss_filtering') === true);
 
@@ -2197,9 +2199,9 @@ abstract class REST_Controller extends CI_Controller
 
         $this->CI = &get_instance();
         $this->CI->load->config('jwt');
-        $token_header = $this->CI->config->item('token_header');
+        $token_header = $this->config->item('token_header');
 
-        if (! isset($headers[$token_header])) {
+        if (! isset($_SERVER["HTTP_AUTHORIZATION"])) {
             $this->response([
                 'status' => false,
                 'message' => 'Faça login para acessar a API.',
@@ -2208,8 +2210,8 @@ abstract class REST_Controller extends CI_Controller
         }
 
         $this->load->library('Authorization_Token');
-        $token = explode(' ', $headers[$token_header]);
-        $decodedToken = (object) $this->authorization_token->validateToken($token[1]);
+        $token = explode(' ', $_SERVER["HTTP_AUTHORIZATION"]);
+        $decodedToken = (object) $this->authorization_token->validateToken($token[1], $reGenToken);
 
         if (! $reGenToken && ! $decodedToken->status) {
             $this->response([
