@@ -1,8 +1,8 @@
 
 ![MapOS](https://raw.githubusercontent.com/RamonSilva20/mapos/master/assets/img/logo.png)
 
-![version](https://img.shields.io/badge/version-4.47.0-blue.svg?longCache=true&style=flat-square)
-![license](https://img.shields.io/badge/license-MIT-green.svg?longCache=true&style=flat-square)
+![version](https://img.shields.io/badge/version-4.50.0-blue.svg?longCache=true&style=flat-square)
+![license](https://img.shields.io/badge/license-Apache-green.svg?longCache=true&style=flat-square)
 ![theme](https://img.shields.io/badge/theme-Matrix--Admin-lightgrey.svg?longCache=true&style=flat-square)
 ![issues](https://img.shields.io/github/issues/RamonSilva20/mapos.svg?longCache=true&style=flat-square)
 ![contributors](https://img.shields.io/github/contributors/RamonSilva20/mapos.svg?longCache=true&style=flat-square)
@@ -104,9 +104,8 @@ Tutorial Instalação: [https://youtu.be/NgXzzBB_2bM?si=FS_R2xq_W0Jnfn33](https:
 Para listar todos os comandos de terminal disponíveis, basta executar o comando `php index.php tools` a partir da raiz do projeto, após feita todo o processo de instalação.
 
 ### Hospedagem Parceira
-Em parceria com o Projeto Map-OS as empresas SysmaTech e Gotek se uniram como SysGo para oferecer hospedagem de qualidade e suporte personalizado para usuários dos Map-OS com custo justo e confiabilidade.
-
-Solicite sua hospedagem agora [Clique Aqui!](https://sysgo.com.br/mapos-github)
+Em parceria com o Projeto Map-OS a SysGO oferece hospedagem de qualidade e suporte personalizado para usuários dos Map-OS com custo justo e confiabilidade.
+Solicite sua hospedagem agora [Clique Aqui!](https://sysgo.com.br/mapos)
 
 <p><img src="https://sysgo.com.br/img-externo/mapos-github.jpg" alt="SysGO - MAP-OS Cloud Hosting" style="width:50%;"></p>
 
@@ -120,9 +119,9 @@ Solicite sua hospedagem agora [Clique Aqui!](https://sysgo.com.br/mapos-github)
 * [filp/whoops](https://github.com/filp/whoops)
 
 ### Requerimentos
-* PHP = 8.2
-* MySQL
-* Composer
+* PHP >= 8.3
+* MySQL = 5.7
+* Composer >= 2
 
 ### Doações
 Gosta do mapos e gostaria de contribuir com seu desenvolvimento?
