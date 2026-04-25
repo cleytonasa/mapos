@@ -20,7 +20,7 @@
                                 <span class="button__icon"><i class='bx bx-receipt'></i></span> <span class="button__text">Cupom 80mm</span>
                             </a>
                             <?php if ($result->garantias_id) { ?>
-                                <a target="_blank" title="Imprimir Termo de Garantia" class="button btn btn-mini btn-inverse" href="<?php echo site_url() ?>/garantias/imprimirGarantiaOs/<?php echo $result->garantias_id; ?>">
+                                <a target="_blank" title="Imprimir Termo de Garantia" class="button btn btn-mini btn-inverse" href="<?php echo site_url() ?>/garantias/imprimirGarantiaOs/<?php echo $result->idOs; ?>">
                                     <span class="button__icon"><i class="bx bx-paperclip"></i></span> <span class="button__text">Termo Garantia</span>
                                 </a>
                             <?php } ?>
@@ -88,15 +88,15 @@
                                             <?php endif; ?>
                                             <?php
                                             $retorno_end = array_filter([$result->rua, $result->numero, $result->complemento, $result->bairro . ' - ']);
-                                            $endereco = implode(', ', $retorno_end);
-                                            echo '<i class="fas fa-map-marker-alt"></i> ';
-                                            if (!empty($endereco)) {
-                                                echo $endereco;
-                                            }
-                                            if (!empty($result->cidade) || !empty($result->estado) || !empty($result->cep)) {
-                                                echo "<span> {$result->cep}, {$result->cidade}/{$result->estado}</span><br>";
-                                            }
-                                            ?>
+$endereco = implode(', ', $retorno_end);
+echo '<i class="fas fa-map-marker-alt"></i> ';
+if (!empty($endereco)) {
+    echo $endereco;
+}
+if (!empty($result->cidade) || !empty($result->estado) || !empty($result->cep)) {
+    echo "<span> {$result->cep}, {$result->cidade}/{$result->estado}</span><br>";
+}
+?>
                                             <?php if (!empty($result->email)): ?>
                                                 <span><i class="fas fa-envelope"></i>
                                                     <?php echo $result->email ?></span><br>
@@ -163,7 +163,7 @@
                                     <tr>
                                         <td colspan="5">
                                             <b>DESCRIÇÃO: </b>
-                                            <?php echo htmlspecialchars_decode($result->descricaoProduto) ?>
+                                            <?php echo printSafeHtml($result->descricaoProduto) ?>
                                         </td>
                                     </tr>
                                 <?php } ?>
@@ -172,7 +172,7 @@
                                     <tr>
                                         <td colspan="5">
                                             <b>DEFEITO APRESENTADO: </b>
-                                            <?php echo htmlspecialchars_decode($result->defeito) ?>
+                                            <?php echo printSafeHtml($result->defeito) ?>
                                         </td>
                                     </tr>
                                 <?php } ?>
@@ -181,7 +181,7 @@
                                     <tr>
                                         <td colspan="5">
                                             <b>OBSERVAÇÕES: </b>
-                                            <?php echo htmlspecialchars_decode($result->observacoes) ?>
+                                            <?php echo printSafeHtml($result->observacoes) ?>
                                         </td>
                                     </tr>
                                 <?php } ?>
@@ -190,7 +190,7 @@
                                     <tr>
                                         <td colspan="5">
                                             <b>LAUDO TÉCNICO: </b>
-                                            <?php echo htmlspecialchars_decode($result->laudoTecnico) ?>
+                                            <?php echo printSafeHtml($result->laudoTecnico) ?>
                                         </td>
                                     </tr>
                                 <?php } ?>
@@ -199,7 +199,7 @@
                                     <tr>
                                         <td colspan="5">
                                             <strong>TERMO DE GARANTIA </strong><br>
-                                            <?php echo htmlspecialchars_decode($result->textoGarantia) ?>
+                                            <?php echo printSafeHtml($result->textoGarantia) ?>
                                         </td>
                                     </tr>
                                 <?php } ?>
@@ -221,9 +221,9 @@
                                         echo '<td>' . date('d/m/Y H:i:s', strtotime($a->data_hora)) . '</td>';
                                         echo '</tr>';
                                     }
-                                    if (!$anotacoes) {
-                                        echo '<tr><td colspan="2">Nenhuma anotação cadastrada</td></tr>';
-                                    } ?>
+                            if (!$anotacoes) {
+                                echo '<tr><td colspan="2">Nenhuma anotação cadastrada</td></tr>';
+                            } ?>
                                 </tbody>
                             </table>
                         <?php } ?>
@@ -293,16 +293,16 @@
                                 </thead>
                                 <tbody>
                                     <?php setlocale(LC_MONETARY, 'en_US');
-                                    foreach ($servicos as $s) {
-                                        $preco = $s->preco ?: $s->precoVenda;
-                                        $subtotal = $preco * ($s->quantidade ?: 1);
-                                        echo '<tr>';
-                                        echo '<td>' . $s->nome . '</td>';
-                                        echo '<td>' . ($s->quantidade ?: 1) . '</td>';
-                                        echo '<td>R$ ' . $preco . '</td>';
-                                        echo '<td>R$ ' . number_format($subtotal, 2, ',', '.') . '</td>';
-                                        echo '</tr>';
-                                    } ?>
+                            foreach ($servicos as $s) {
+                                $preco = $s->preco ?: $s->precoVenda;
+                                $subtotal = $preco * ($s->quantidade ?: 1);
+                                echo '<tr>';
+                                echo '<td>' . $s->nome . '</td>';
+                                echo '<td>' . ($s->quantidade ?: 1) . '</td>';
+                                echo '<td>R$ ' . $preco . '</td>';
+                                echo '<td>R$ ' . number_format($subtotal, 2, ',', '.') . '</td>';
+                                echo '</tr>';
+                            } ?>
                                     <tr>
                                         <td colspan="3" style="text-align: right"><strong>TOTAL:</strong></td>
                                         <td><strong>R$ <?php echo number_format($totalServico, 2, ',', '.'); ?></strong>

@@ -27,8 +27,8 @@
             <div class="span12">
                 <?php
                     $totalServico = 0;
-                    $totalProdutos = 0;
-                ?>
+    $totalProdutos = 0;
+    ?>
                 <div class="row-fluid" style="margin-top: 0">
                     <div class="span12">
                         <div class="widget-box">
@@ -109,7 +109,7 @@
                                                         <tr>
                                                             <td>
                                                                 <strong>Descrição</strong><br>
-                                                                <?php echo htmlspecialchars_decode($result->descricaoProduto) ?>
+                                                                <?php echo printSafeHtml($result->descricaoProduto) ?>
                                                             </td>
                                                         </tr>
 
@@ -119,7 +119,7 @@
                                                         <tr>
                                                             <td>
                                                                 <strong>Defeito</strong><br>
-                                                                <?php echo htmlspecialchars_decode($result->defeito) ?>
+                                                                <?php echo printSafeHtml($result->defeito) ?>
                                                             </td>
                                                         </tr>
                                                     <?php } ?>
@@ -128,7 +128,7 @@
                                                         <tr>
                                                             <td>
                                                                 <strong>Laudo Técnico</strong> <br>
-                                                                <?php echo htmlspecialchars_decode($result->laudoTecnico) ?>
+                                                                <?php echo printSafeHtml($result->laudoTecnico) ?>
                                                             </td>
                                                         </tr>
                                                     <?php } ?>
@@ -137,7 +137,7 @@
                                                         <tr>
                                                             <td>
                                                                 <strong>Observações</strong> <br>
-                                                                <?php echo htmlspecialchars_decode($result->observacoes) ?>
+                                                                <?php echo printSafeHtml($result->observacoes) ?>
                                                             </td>
                                                         </tr>
                                                     <?php } ?>
@@ -160,29 +160,29 @@
                                                 <tbody>
                                                     <?php
 
-                                                    foreach ($produtos as $p) {
-                                                        $totalProdutos = $totalProdutos + $p->subTotal;
-                                                        echo '<tr>';
-                                                        echo '<td style="text-align: center">' . $p->descricao . '</td>';
-                                                        echo '<td style="text-align: center">' . $p->quantidade . '</td>';
+                                        foreach ($produtos as $p) {
+                                            $totalProdutos = $totalProdutos + $p->subTotal;
+                                            echo '<tr>';
+                                            echo '<td style="text-align: center">' . $p->descricao . '</td>';
+                                            echo '<td style="text-align: center">' . $p->quantidade . '</td>';
 
-                                                        echo '<td style="text-align: center">R$ ' . number_format($p->subTotal, 2, ',', '.') . '</td>';
-                                                        echo '</tr>';
-                                                    } ?>
+                                            echo '<td style="text-align: center">R$ ' . number_format($p->subTotal, 2, ',', '.') . '</td>';
+                                            echo '</tr>';
+                                        } ?>
 
 
                                                     <?php
-                                                    setlocale(LC_MONETARY, 'en_US');
-                                                    foreach ($servicos as $s) {
-                                                        $preco = $s->preco;
-                                                        $totalServico = $totalServico + $preco;
-                                                        echo '<tr>';
-                                                        echo '<td style="text-align: center">' . $s->nome . '</td>';
-                                                        echo '<td></td>';
-                                                        echo '<td style="text-align: center">R$ ' . number_format($s->preco, 2, ',', '.') . '</td>';
-                                                        echo '</tr>';
-                                                    }
-                                                    ?>
+                                        setlocale(LC_MONETARY, 'en_US');
+                                            foreach ($servicos as $s) {
+                                                $preco = $s->preco;
+                                                $totalServico = $totalServico + $preco;
+                                                echo '<tr>';
+                                                echo '<td style="text-align: center">' . $s->nome . '</td>';
+                                                echo '<td></td>';
+                                                echo '<td style="text-align: center">R$ ' . number_format($s->preco, 2, ',', '.') . '</td>';
+                                                echo '</tr>';
+                                            }
+                                            ?>
 
                                                     <tr>
                                                         <td colspan="2" style="text-align: right"></td>

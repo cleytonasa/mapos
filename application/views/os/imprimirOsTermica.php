@@ -88,12 +88,12 @@ $totalProdutos = 0; ?>
                                 <?php if ($emitente == null) { ?>
                                     <tr>
                                         <td colspan="5" class="alert">Você precisa configurar os dados do emitente. >>><a href="<?php echo base_url(); ?>index.php/mapos/emitente">Configurar</a>
-                                            <<<</td> </tr> <?php } else { ?> 
+                                            <<<</td> </tr> <?php } else { ?>
                                     <td style="width: 25% ;text-align: center" ><img src="<?php echo $emitente->url_logo; ?>" style="max-height: 100px"></td>
                                     <tr>
                                         <td colspan="5" style="text-align: center; font-size: 11px;" >
                                             <span style="font-size: 12px; text-transform: uppercase"><b><?php echo $emitente->nome; ?></b></br></span>
-                                            <?php if($emitente->cnpj != "00.000.000/0000-00") { ?><span class="icon"><i class="fas fa-fingerprint" style="margin:5px 1px"></i> <?php echo $emitente->cnpj; ?></span></br><?php } ?>
+                                            <?php if ($emitente->cnpj != "00.000.000/0000-00") { ?><span class="icon"><i class="fas fa-fingerprint" style="margin:5px 1px"></i> <?php echo $emitente->cnpj; ?></span></br><?php } ?>
                                             <span><?php echo $emitente->rua . ', ' . $emitente->numero . '</br>' . $emitente->bairro . ', ' . $emitente->cidade . ' - ' . $emitente->uf; ?></span></br>
                                             <span><?php echo $emitente->email; ?> - <?php echo $emitente->telefone; ?></span>
                                         </td>
@@ -123,10 +123,14 @@ $totalProdutos = 0; ?>
                                                 <?php endif; ?>
                                                 <span><?php
                                                     $retorno_end = array_filter([$result->rua, $result->numero, $result->complemento, $result->bairro]);
-                                                    $endereco = implode(', ', $retorno_end);
-                                                    if (!empty($endereco)) {echo $endereco . '<br>';}
-                                                    if (!empty($result->cidade) || !empty($result->estado) || !empty($result->cep)) { echo "<span>{$result->cidade} - {$result->estado}, {$result->cep}</span><br>";}
-                                                ?></span>
+$endereco = implode(', ', $retorno_end);
+if (!empty($endereco)) {
+    echo $endereco . '<br>';
+}
+if (!empty($result->cidade) || !empty($result->estado) || !empty($result->cep)) {
+    echo "<span>{$result->cidade} - {$result->estado}, {$result->cep}</span><br>";
+}
+?></span>
                                             </li>
                                         </ul>
                                     </td>
@@ -151,26 +155,26 @@ $totalProdutos = 0; ?>
                                         <?php if ($result->garantia != null) { ?><td><b>Garantia:</b></br><?php echo $result->garantia . ' dia(s)'; ?><?php } ?></td>
                                     </tr>
                                 <?php } ?>
-                                
+
                                 <?php if ($result->descricaoProduto != null) { ?>
                                     <tr>
-                                        <td colspan="5"><b>Descrição: </b><?php echo htmlspecialchars_decode($result->descricaoProduto) ?></td>
+                                        <td colspan="5"><b>Descrição: </b><?php echo printSafeHtml($result->descricaoProduto) ?></td>
                                     </tr>
                                 <?php } ?>
                                 <?php if ($result->defeito != null) { ?>
                                     <tr>
-                                        <td colspan="5"><b>Defeito Apresentado: </b><?php echo htmlspecialchars_decode($result->defeito) ?></td>
+                                        <td colspan="5"><b>Defeito Apresentado: </b><?php echo printSafeHtml($result->defeito) ?></td>
                                     </tr>
                                 <?php } ?>
                                 <?php if ($result->observacoes != null) { ?>
                                     <tr>
-                                        <td colspan="5"><b>Observações: </b><?php echo htmlspecialchars_decode($result->observacoes) ?></td>
+                                        <td colspan="5"><b>Observações: </b><?php echo printSafeHtml($result->observacoes) ?></td>
                                     </tr>
                                 <?php } ?>
                                 <?php if ($result->status != 'Aberto') { ?>
                                     <?php if ($result->laudoTecnico != null) { ?>
                                         <tr>
-                                            <td colspan="5"><b>Laudo Técnico: </b><?php echo htmlspecialchars_decode($result->laudoTecnico) ?></td>
+                                            <td colspan="5"><b>Laudo Técnico: </b><?php echo printSafeHtml($result->laudoTecnico) ?></td>
                                         </tr>
                                     <?php } ?>
                                 <?php } ?>
@@ -178,7 +182,7 @@ $totalProdutos = 0; ?>
                                     <tr>
                                         <td colspan="5">
                                             <strong>Termo de Garantia: </strong><br>
-                                            <?php echo htmlspecialchars_decode($result->textoGarantia) ?>
+                                            <?php echo printSafeHtml($result->textoGarantia) ?>
                                         </td>
                                     </tr>
                                 <?php } ?>
@@ -224,17 +228,18 @@ $totalProdutos = 0; ?>
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php setlocale(LC_MONETARY, 'en_US'); foreach ($servicos as $s) {
-                                    $preco = $s->preco ?: $s->precoVenda;
-                                    $subtotal = $preco * ($s->quantidade ?: 1);
-                                    $totalServico = $totalServico + $subtotal;
-                                    echo '<tr>';
-                                    echo '<td>' . ($s->quantidade ?: 1) . '</td>';
-                                    echo '<td>' . $s->nome . '</td>';
-                                    echo '<td>R$ ' . $preco . '</td>';
-                                    echo '<td>R$ ' . number_format($subtotal, 2, ',', '.') . '</td>';
-                                    echo '</tr>';
-                                } ?>
+                                <?php setlocale(LC_MONETARY, 'en_US');
+                        foreach ($servicos as $s) {
+                            $preco = $s->preco ?: $s->precoVenda;
+                            $subtotal = $preco * ($s->quantidade ?: 1);
+                            $totalServico = $totalServico + $subtotal;
+                            echo '<tr>';
+                            echo '<td>' . ($s->quantidade ?: 1) . '</td>';
+                            echo '<td>' . $s->nome . '</td>';
+                            echo '<td>R$ ' . $preco . '</td>';
+                            echo '<td>R$ ' . number_format($subtotal, 2, ',', '.') . '</td>';
+                            echo '</tr>';
+                        } ?>
                                 <tr>
                                     <td colspan="3" style="text-align: right"><strong>Total:</strong></td>
                                     <td><strong>R$ <?php echo number_format($totalServico, 2, ',', '.'); ?></strong></td>
@@ -246,13 +251,15 @@ $totalProdutos = 0; ?>
                         <tbody>
                             <tr>
                                 <td colspan="5"> <?php
-                                    if ($totalProdutos != 0 || $totalServico != 0) {
-                                        if ($result->valor_desconto != 0) {
-                                            echo "<h4 style='text-align: right; font-size: 13px;'>Subtotal: R$ " . number_format($totalProdutos + $totalServico, 2, ',', '.') . "</h4>";
-                                            echo $result->valor_desconto != 0 ? "<h4 style='text-align: right; font-size: 13px;'> Desconto: R$ " . number_format($result->valor_desconto != 0 ? $result->valor_desconto - ($totalProdutos + $totalServico) : 0.00, 2, ',', '.') . "</h4>" : "";
-                                            echo $result->valor_desconto != 0 ? "<h4 style='text-align: right; font-size: 13px;'> Total: R$ " . number_format($result->valor_desconto, 2, ',', '.') . "</h4>" : "";
-                                        } else { echo "<h4 style='text-align: right; font-size: 13px;'>Total: R$ " . number_format($totalProdutos + $totalServico, 2, ',', '.') . "</h4>"; }
-                                    } ?>
+                            if ($totalProdutos != 0 || $totalServico != 0) {
+                                if ($result->valor_desconto != 0) {
+                                    echo "<h4 style='text-align: right; font-size: 13px;'>Subtotal: R$ " . number_format($totalProdutos + $totalServico, 2, ',', '.') . "</h4>";
+                                    echo $result->valor_desconto != 0 ? "<h4 style='text-align: right; font-size: 13px;'> Desconto: R$ " . number_format($result->valor_desconto != 0 ? $result->valor_desconto - ($totalProdutos + $totalServico) : 0.00, 2, ',', '.') . "</h4>" : "";
+                                    echo $result->valor_desconto != 0 ? "<h4 style='text-align: right; font-size: 13px;'> Total: R$ " . number_format($result->valor_desconto, 2, ',', '.') . "</h4>" : "";
+                                } else {
+                                    echo "<h4 style='text-align: right; font-size: 13px;'>Total: R$ " . number_format($totalProdutos + $totalServico, 2, ',', '.') . "</h4>";
+                                }
+                            } ?>
                                 </td>
                             </tr>
                         </tbody>
@@ -277,9 +284,10 @@ $totalProdutos = 0; ?>
                         </tbody>
                     </table>
                 </div>
-                      
+
                 <!-- Via Da Empresa  -->
-                <?php $totalServico = 0; $totalProdutos = 0; ?>
+                <?php $totalServico = 0;
+$totalProdutos = 0; ?>
                     <div id="ViaEmpresa" <?php echo (!$configuration['control_2vias']) ? "style='display: none;'" : "style='display: block;'" ?>>
                         <div class="invoice-head" style="margin-bottom: 0">
                             <table class="table table-condensed">
@@ -293,7 +301,7 @@ $totalProdutos = 0; ?>
                                     <tr>
                                         <td colspan="5" style="text-align: center; font-size: 11px;" >
                                             <span style="font-size: 12px; text-transform: uppercase"><b><?php echo $emitente->nome; ?></b></br></span>
-                                            <?php if($emitente->cnpj != "00.000.000/0000-00") { ?><span class="icon"><i class="fas fa-fingerprint" style="margin:5px 1px"></i> <?php echo $emitente->cnpj; ?></span></br><?php } ?>
+                                            <?php if ($emitente->cnpj != "00.000.000/0000-00") { ?><span class="icon"><i class="fas fa-fingerprint" style="margin:5px 1px"></i> <?php echo $emitente->cnpj; ?></span></br><?php } ?>
                                             <span><?php echo $emitente->rua . ', ' . $emitente->numero . '</br>' . $emitente->bairro . ', ' . $emitente->cidade . ' - ' . $emitente->uf; ?></span></br>
                                             <span><?php echo $emitente->email; ?> - <?php echo $emitente->telefone; ?></span>
                                         </td>
@@ -322,11 +330,15 @@ $totalProdutos = 0; ?>
                                                         <span><?php echo $result->email ?></span><br>
                                                 <?php endif; ?>
                                                 <span><?php
-                                                    $retorno_end = array_filter([$result->rua, $result->numero, $result->complemento, $result->bairro]);
-                                                    $endereco = implode(', ', $retorno_end);
-                                                    if (!empty($endereco)) {echo $endereco . '<br>';}
-                                                    if (!empty($result->cidade) || !empty($result->estado) || !empty($result->cep)) { echo "<span>{$result->cidade} - {$result->estado}, {$result->cep}</span><br>";}
-                                                ?></span>
+                                    $retorno_end = array_filter([$result->rua, $result->numero, $result->complemento, $result->bairro]);
+$endereco = implode(', ', $retorno_end);
+if (!empty($endereco)) {
+    echo $endereco . '<br>';
+}
+if (!empty($result->cidade) || !empty($result->estado) || !empty($result->cep)) {
+    echo "<span>{$result->cidade} - {$result->estado}, {$result->cep}</span><br>";
+}
+?></span>
                                             </li>
                                         </ul>
                                     </td>
@@ -363,21 +375,21 @@ $totalProdutos = 0; ?>
                                         <?php if ($result->descricaoProduto != null) { ?>
                                             <tr>
                                                 <td colspan="5">
-                                                    <b>Descrição: </b><?php echo htmlspecialchars_decode($result->descricaoProduto) ?>
+                                                    <b>Descrição: </b><?php echo printSafeHtml($result->descricaoProduto) ?>
                                                 </td>
                                             </tr>
                                         <?php } ?>
                                         <?php if ($result->defeito != null) { ?>
                                             <tr>
                                                 <td colspan="5">
-                                                    <b>Defeito Apresentado: </b><?php echo htmlspecialchars_decode($result->defeito) ?>
+                                                    <b>Defeito Apresentado: </b><?php echo printSafeHtml($result->defeito) ?>
                                                 </td>
                                             </tr>
                                         <?php } ?>
                                         <?php if ($result->observacoes != null) { ?>
                                             <tr>
                                                 <td colspan="5">
-                                                    <b>Observações: </b><?php echo htmlspecialchars_decode($result->observacoes) ?>
+                                                    <b>Observações: </b><?php echo printSafeHtml($result->observacoes) ?>
                                                 </td>
                                             </tr>
                                         <?php } ?>
@@ -385,7 +397,7 @@ $totalProdutos = 0; ?>
                                         <?php if ($result->laudoTecnico != null) { ?>
                                             <tr>
                                                 <td colspan="5">
-                                                    <b>Laudo Técnico: </b><?php echo htmlspecialchars_decode($result->laudoTecnico) ?>
+                                                    <b>Laudo Técnico: </b><?php echo printSafeHtml($result->laudoTecnico) ?>
                                                 </td>
                                             </tr>
                                         <?php } ?>
@@ -393,7 +405,7 @@ $totalProdutos = 0; ?>
                                     <?php if ($result->garantias_id != null) { ?>
                                     <tr>
                                         <td colspan="5">
-                                            <strong>Termo de Garantia: </strong><br><?php echo htmlspecialchars_decode($result->textoGarantia) ?>
+                                            <strong>Termo de Garantia: </strong><br><?php echo printSafeHtml($result->textoGarantia) ?>
                                         </td>
                                     </tr>
                                 <?php } ?>
@@ -440,17 +452,18 @@ $totalProdutos = 0; ?>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php setlocale(LC_MONETARY, 'en_US'); foreach ($servicos as $s) {
-                                        $preco = $s->preco ?: $s->precoVenda;
-                                        $subtotal = $preco * ($s->quantidade ?: 1);
-                                        $totalServico = $totalServico + $subtotal;
-                                        echo '<tr>';
-                                        echo '<td>' . ($s->quantidade ?: 1) . '</td>';
-                                        echo '<td>' . $s->nome . '</td>';
-                                        echo '<td>R$ ' . $preco . '</td>';
-                                        echo '<td>R$ ' . number_format($subtotal, 2, ',', '.') . '</td>';
-                                        echo '</tr>';
-                                    } ?>
+                                    <?php setlocale(LC_MONETARY, 'en_US');
+                            foreach ($servicos as $s) {
+                                $preco = $s->preco ?: $s->precoVenda;
+                                $subtotal = $preco * ($s->quantidade ?: 1);
+                                $totalServico = $totalServico + $subtotal;
+                                echo '<tr>';
+                                echo '<td>' . ($s->quantidade ?: 1) . '</td>';
+                                echo '<td>' . $s->nome . '</td>';
+                                echo '<td>R$ ' . $preco . '</td>';
+                                echo '<td>R$ ' . number_format($subtotal, 2, ',', '.') . '</td>';
+                                echo '</tr>';
+                            } ?>
                                     <tr>
                                         <td colspan="3" style="text-align: right"><strong>Total:</strong></td>
                                         <td><strong>R$ <?php echo number_format($totalServico, 2, ',', '.'); ?></strong></td>
@@ -463,13 +476,15 @@ $totalProdutos = 0; ?>
                             <tbody>
                                 <tr>
                                     <td colspan="5"> <?php
-                                        if ($totalProdutos != 0 || $totalServico != 0) {
-                                            if ($result->valor_desconto != 0) {
-                                                echo "<h4 style='text-align: right; font-size: 13px;'>Subtotal: R$ " . number_format($totalProdutos + $totalServico, 2, ',', '.') . "</h4>";
-                                                echo $result->valor_desconto != 0 ? "<h4 style='text-align: right; font-size: 13px;'> Desconto: R$ " . number_format($result->valor_desconto != 0 ? $result->valor_desconto - ($totalProdutos + $totalServico) : 0.00, 2, ',', '.') . "</h4>" : "";
-                                                echo $result->valor_desconto != 0 ? "<h4 style='text-align: right; font-size: 13px;'> Total: R$ " . number_format($result->valor_desconto, 2, ',', '.') . "</h4>" : "";
-                                            } else { echo "<h4 style='text-align: right; font-size: 13px;'>Total: R$ " . number_format($totalProdutos + $totalServico, 2, ',', '.') . "</h4>"; }
-                                        } ?>
+                                if ($totalProdutos != 0 || $totalServico != 0) {
+                                    if ($result->valor_desconto != 0) {
+                                        echo "<h4 style='text-align: right; font-size: 13px;'>Subtotal: R$ " . number_format($totalProdutos + $totalServico, 2, ',', '.') . "</h4>";
+                                        echo $result->valor_desconto != 0 ? "<h4 style='text-align: right; font-size: 13px;'> Desconto: R$ " . number_format($result->valor_desconto != 0 ? $result->valor_desconto - ($totalProdutos + $totalServico) : 0.00, 2, ',', '.') . "</h4>" : "";
+                                        echo $result->valor_desconto != 0 ? "<h4 style='text-align: right; font-size: 13px;'> Total: R$ " . number_format($result->valor_desconto, 2, ',', '.') . "</h4>" : "";
+                                    } else {
+                                        echo "<h4 style='text-align: right; font-size: 13px;'>Total: R$ " . number_format($totalProdutos + $totalServico, 2, ',', '.') . "</h4>";
+                                    }
+                                } ?>
                                     </td>
                                 </tr>
                             </tbody>
@@ -503,7 +518,7 @@ $totalProdutos = 0; ?>
     </div>
 </div>
 <script type="text/javascript">
-  window.print(); 
+  window.print();
 </script>
 </body>
     <script src="<?php echo base_url(); ?>assets/js/bootstrap.min.js"></script>

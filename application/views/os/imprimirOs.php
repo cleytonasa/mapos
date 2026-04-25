@@ -1,6 +1,6 @@
 <?php
-    $totalServico  = 0;
-    $totalProdutos = 0;
+$totalServico  = 0;
+$totalProdutos = 0;
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -26,7 +26,7 @@
                     </div>
                     <div class="emitente">
                         <span style="font-size: 16px;"><b><?= $emitente->nome ?></b></span></br>
-                        <?php if($emitente->cnpj != "00.000.000/0000-00") : ?>
+                        <?php if ($emitente->cnpj != "00.000.000/0000-00") : ?>
                             <span class="align-middle">CNPJ: <?= $emitente->cnpj ?></span></br>
                         <?php endif; ?>
                         <span class="align-middle">
@@ -100,7 +100,7 @@
                     <div class="subtitle">DESCRIÇÃO</div>
                     <div class="dados">
                         <div style="text-align: justify;">
-                            <?= htmlspecialchars_decode($result->descricaoProduto) ?>
+                            <?= printSafeHtml($result->descricaoProduto) ?>
                         </div>
                     </div>
                 <?php endif; ?>
@@ -109,7 +109,7 @@
                     <div class="subtitle">DEFEITO APRESENTADO</div>
                     <div class="dados">
                         <div style="text-align: justify;">
-                            <?= htmlspecialchars_decode($result->defeito) ?>
+                            <?= printSafeHtml($result->defeito) ?>
                         </div>
                     </div>
                 <?php endif; ?>
@@ -118,7 +118,7 @@
                     <div class="subtitle">OBSERVAÇÕES</div>
                     <div class="dados">
                         <div style="text-align: justify;">
-                            <?= htmlspecialchars_decode($result->observacoes) ?>
+                            <?= printSafeHtml($result->observacoes) ?>
                         </div>
                     </div>
                 <?php endif; ?>
@@ -127,7 +127,7 @@
 					<div class="subtitle">PARECER TÉCNICO</div>
                     <div class="dados">
                         <div style="text-align: justify;">
-    						<?= htmlspecialchars_decode($result->laudoTecnico) ?>
+    						<?= printSafeHtml($result->laudoTecnico) ?>
 						</div>
                     </div>
                 <?php endif; ?>
@@ -135,7 +135,7 @@
                 <?php if ($result->garantias_id) : ?>
                     <div class="subtitle">TERMO DE GARANTIA</div>
                     <div class="dados">
-                        <div style="text-align: justify;"><?= htmlspecialchars_decode($result->textoGarantia) ?></div>
+                        <div style="text-align: justify;"><?= printSafeHtml($result->textoGarantia) ?></div>
                     </div>
                 <?php endif; ?>
 
@@ -168,7 +168,7 @@
                         </table>
                     </div>
                 <?php endif; ?>
-                
+
                 <?php if ($servicos) : ?>
                     <div class="tabela">
                         <table class="table table-bordered">
@@ -181,19 +181,19 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php 
-                                    setlocale(LC_MONETARY, 'en_US'); 
-                                    foreach ($servicos as $s) :
-                                        $preco = $s->preco ?: $s->precoVenda;
-                                        $subtotal = $preco * ($s->quantidade ?: 1);
-                                        $totalServico = $totalServico + $subtotal;
-                                        echo '<tr>';
-                                        echo '  <td>' . $s->nome . '</td>';
-                                        echo '  <td class="text-center">' . ($s->quantidade ?: 1) . '</td>';
-                                        echo '  <td class="text-center">' . number_format($preco, 2, ',', '.') . '</td>';
-                                        echo '  <td class="text-end">R$ ' . number_format($subtotal, 2, ',', '.') . '</td>';
-                                        echo '</tr>';
-                                    endforeach; ?>
+                                <?php
+                                    setlocale(LC_MONETARY, 'en_US');
+                    foreach ($servicos as $s) :
+                        $preco = $s->preco ?: $s->precoVenda;
+                        $subtotal = $preco * ($s->quantidade ?: 1);
+                        $totalServico = $totalServico + $subtotal;
+                        echo '<tr>';
+                        echo '  <td>' . $s->nome . '</td>';
+                        echo '  <td class="text-center">' . ($s->quantidade ?: 1) . '</td>';
+                        echo '  <td class="text-center">' . number_format($preco, 2, ',', '.') . '</td>';
+                        echo '  <td class="text-end">R$ ' . number_format($subtotal, 2, ',', '.') . '</td>';
+                        echo '</tr>';
+                    endforeach; ?>
                                 <tr>
                                     <td colspan="3" class="text-end"><b>TOTAL SERVIÇOS:</b></td>
                                     <td class="text-end"><b>R$ <?= number_format($totalServico, 2, ',', '.') ?></b></td>
@@ -278,7 +278,7 @@
                         </div>
                         <div class="emitente">
                             <span style="font-size: 16px;"><b><?= $emitente->nome ?></b></span></br>
-                            <?php if($emitente->cnpj != "00.000.000/0000-00") : ?>
+                            <?php if ($emitente->cnpj != "00.000.000/0000-00") : ?>
                                 <span class="align-middle">CNPJ: <?= $emitente->cnpj ?></span></br>
                             <?php endif; ?>
                             <span class="align-middle">
@@ -296,7 +296,8 @@
                 <section>
                     <div class="title">
                         <!-- VIA EMPRESA  -->
-                        <?php $totalServico = 0; $totalProdutos = 0; ?>
+                        <?php $totalServico = 0;
+$totalProdutos = 0; ?>
                         <?php if ($configuration['control_2vias']) : ?><span class="via">Via Empresa</span><?php endif; ?>
                         ORDEM DE SERVIÇO #<?= str_pad($result->idOs, 4, 0, STR_PAD_LEFT) ?>
                         <span class="emissao">Emissão: <?= date('d/m/Y') ?></span>
@@ -354,7 +355,7 @@
                         <div class="subtitle">DESCRIÇÃO</div>
                         <div class="dados">
                             <div>
-                                <?= htmlspecialchars_decode($result->descricaoProduto) ?>
+                                <?= printSafeHtml($result->descricaoProduto) ?>
                             </div>
                         </div>
                     <?php endif; ?>
@@ -363,7 +364,7 @@
                         <div class="subtitle">DEFEITO APRESENTADO</div>
                         <div class="dados">
                             <div>
-                                <?= htmlspecialchars_decode($result->defeito) ?>
+                                <?= printSafeHtml($result->defeito) ?>
                             </div>
                         </div>
                     <?php endif; ?>
@@ -372,7 +373,7 @@
                         <div class="subtitle">OBSERVAÇÕES</div>
                         <div class="dados">
                             <div>
-                                <?= htmlspecialchars_decode($result->observacoes) ?>
+                                <?= printSafeHtml($result->observacoes) ?>
                             </div>
                         </div>
                     <?php endif; ?>
@@ -381,7 +382,7 @@
                         <div class="subtitle">PARECER TÉCNICO</div>
                         <div class="dados">
                             <div>
-                                <?= htmlspecialchars_decode($result->laudoTecnico) ?>
+                                <?= printSafeHtml($result->laudoTecnico) ?>
                             </div>
                         </div>
                     <?php endif; ?>
@@ -389,7 +390,7 @@
                     <?php if ($result->garantias_id) : ?>
                         <div class="subtitle">TERMO DE GARANTIA</div>
                         <div class="dados">
-                            <div style="text-align: justify;"><?= htmlspecialchars_decode($result->textoGarantia) ?></div>
+                            <div style="text-align: justify;"><?= printSafeHtml($result->textoGarantia) ?></div>
                         </div>
                     <?php endif; ?>
 
@@ -422,7 +423,7 @@
                             </table>
                         </div>
                     <?php endif; ?>
-                    
+
                     <?php if ($servicos) : ?>
                         <div class="tabela">
                             <table class="table table-bordered">
@@ -435,19 +436,19 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php 
-                                        setlocale(LC_MONETARY, 'en_US'); 
-                                        foreach ($servicos as $s) :
-                                            $preco = $s->preco ?: $s->precoVenda;
-                                            $subtotal = $preco * ($s->quantidade ?: 1);
-                                            $totalServico = $totalServico + $subtotal;
-                                            echo '<tr>';
-                                            echo '  <td>' . $s->nome . '</td>';
-                                            echo '  <td class="text-center">' . ($s->quantidade ?: 1) . '</td>';
-                                            echo '  <td class="text-center">' . number_format($preco, 2, ',', '.') . '</td>';
-                                            echo '  <td class="text-end">R$ ' . number_format($subtotal, 2, ',', '.') . '</td>';
-                                            echo '</tr>';
-                                        endforeach; ?>
+                                    <?php
+                                        setlocale(LC_MONETARY, 'en_US');
+                        foreach ($servicos as $s) :
+                            $preco = $s->preco ?: $s->precoVenda;
+                            $subtotal = $preco * ($s->quantidade ?: 1);
+                            $totalServico = $totalServico + $subtotal;
+                            echo '<tr>';
+                            echo '  <td>' . $s->nome . '</td>';
+                            echo '  <td class="text-center">' . ($s->quantidade ?: 1) . '</td>';
+                            echo '  <td class="text-center">' . number_format($preco, 2, ',', '.') . '</td>';
+                            echo '  <td class="text-end">R$ ' . number_format($subtotal, 2, ',', '.') . '</td>';
+                            echo '</tr>';
+                        endforeach; ?>
                                     <tr>
                                         <td colspan="3" class="text-end"><b>TOTAL SERVIÇOS:</b></td>
                                         <td class="text-end"><b>R$ <?= number_format($totalServico, 2, ',', '.') ?></b></td>
@@ -558,16 +559,16 @@
                         <div style="width: 100%; display: flex; justify-content: space-around; align-items: center; flex-wrap: wrap;">
                             <?php
                                 $contaAnexos = 0;
-                                foreach ($anexos as $a) :
-                                    if ($a->thumb) :
-                                        $thumb = $a->url.'/thumbs/'.$a->thumb;
-                                        $link  = $a->url.'/'.$a->anexo;
-                            ?>
+foreach ($anexos as $a) :
+    if ($a->thumb) :
+        $thumb = $a->url.'/thumbs/'.$a->thumb;
+        $link  = $a->url.'/'.$a->anexo;
+        ?>
                                         <img src="<?= $link ?>" alt="">
                             <?php
-                                    endif;
-                                endforeach;
-                            ?>
+    endif;
+endforeach;
+?>
                         </div>
                     </div>
                 <section>
