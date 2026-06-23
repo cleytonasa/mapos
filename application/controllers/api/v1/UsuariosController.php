@@ -271,8 +271,7 @@ class UsuariosController extends REST_Controller
             // Verificar credenciais do usuário
             if (password_verify($password, $user->senha)) {
                 $this->log_app('Efetuou login no sistema', $user->nome);
-                $permissoes = $this->getInstanceDatabase('permissoes', '*', 'idPermissao = ' . $user->permissoes_id, 1, true);
-                $permissoes = unserialize($permissoes['permissoes']);
+                $permissoes = json_decode_legacy($this->getInstanceDatabase('permissoes', '*', 'idPermissao = ' . $user->permissoes_id, 1, true)['permissoes']);
 
                 $token_data = [
                     'uid' => $user->idUsuarios,
@@ -322,8 +321,7 @@ class UsuariosController extends REST_Controller
                     'permissao' => $user->permissoes_id,
                 ];
 
-                $permissoes = $this->getInstanceDatabase('permissoes', '*', 'idPermissao = ' . $user->permissoes_id, 1, true);
-                $permissoes = unserialize($permissoes['permissoes']);
+                $permissoes = json_decode_legacy($this->getInstanceDatabase('permissoes', '*', 'idPermissao = ' . $user->permissoes_id, 1, true)['permissoes']);
 
                 $result = [
                     'access_token' => $this->authorization_token->generateToken($token_data),

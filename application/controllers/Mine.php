@@ -981,7 +981,7 @@ class Mine extends CI_Controller
             'message' => $html,
             'status' => 'pending',
             'date' => date('Y-m-d H:i:s'),
-            'headers' => serialize($headers),
+            'headers' => json_encode($headers),
         ];
 
         return $this->email_model->add('email_queue', $email);
@@ -1023,7 +1023,7 @@ class Mine extends CI_Controller
                 'message' => $html,
                 'status' => 'pending',
                 'date' => date('Y-m-d H:i:s'),
-                'headers' => serialize($headers),
+                'headers' => json_encode($headers),
             ];
             $this->email_model->add('email_queue', $email);
         }
@@ -1058,7 +1058,7 @@ class Mine extends CI_Controller
             'message' => $html,
             'status' => 'pending',
             'date' => date('Y-m-d H:i:s'),
-            'headers' => serialize($headers),
+            'headers' => json_encode($headers),
         ];
 
         return $this->email_model->add('email_queue', $email);
@@ -1093,7 +1093,7 @@ class Mine extends CI_Controller
                 'message' => $html,
                 'status' => 'pending',
                 'date' => date('Y-m-d H:i:s'),
-                'headers' => serialize($headers),
+                'headers' => json_encode($headers),
             ];
             $this->email_model->add('email_queue', $email);
         }
@@ -1106,7 +1106,7 @@ class Mine extends CI_Controller
         $arrFont = ['font-ZXX_Noise.otf', 'font-karabine.ttf', 'font-capture.ttf', 'font-captcha.ttf'];
         shuffle($arrFont);
 
-        $codigoCaptcha = substr(md5(time()), 0, 7);
+        $codigoCaptcha = substr(bin2hex(random_bytes(4)), 0, 7);
         $img = imagecreatefromjpeg('./assets/img/captcha_bg.jpg');
         $corCaptcha = imagecolorallocate($img, 255, 0, 0);
         $font = './assets/font-awesome/' . $arrFont[0];

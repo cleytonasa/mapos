@@ -96,7 +96,7 @@ class MY_Email extends CI_Email
             'cc' => $cc,
             'bcc' => $bcc,
             'message' => $this->_body,
-            'headers' => serialize($this->_headers),
+            'headers' => json_encode($this->_headers),
             'status' => 'pending',
             'date' => $date,
         ];
@@ -142,7 +142,7 @@ class MY_Email extends CI_Email
             $cc = ! empty($email->cc) ? explode(', ', $email->cc) : [];
             $bcc = ! empty($email->bcc) ? explode(', ', $email->bcc) : [];
 
-            $this->_headers = unserialize($email->headers);
+            $this->_headers = json_decode_legacy($email->headers);
 
             $this->to($recipients);
             $this->cc($cc);
