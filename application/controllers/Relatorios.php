@@ -1001,6 +1001,12 @@ class Relatorios extends MY_Controller
 
         $format = $this->input->get('format') ?: 'docx';
 
+        if ($format !== 'docx' && $format !== 'pdf') {
+            $this->session->set_flashdata('error', 'O formato selecionado é inválido');
+            redirect('relatorios/receitasBrutasMei');
+            return;
+        }
+
         $templatePath = realpath(FCPATH . 'assets/relatorios/RELATORIO_MENSAL_DAS_RECEITAS_BRUTAS_MEI.docx');
         if (! $templatePath) {
             $this->session->set_flashdata('error', 'Modelo de relatório não encontrado!');
@@ -1055,6 +1061,13 @@ class Relatorios extends MY_Controller
         $this->load->helper('file');
 
         $format = $this->input->get('format') ?: 'docx';
+
+        if ($format !== 'docx' && $format !== 'pdf') {
+            $this->session->set_flashdata('error', 'O formato selecionado é inválido');
+            redirect('relatorios/receitasBrutasMei');
+            return;
+        }
+
         $dataInicial = $this->input->get('dataInicial');
         $dataFinal = $this->input->get('dataFinal');
 
@@ -1081,8 +1094,8 @@ class Relatorios extends MY_Controller
             return force_download(
                 sprintf(
                     "relatorio_receitas_brutas_mei_custom_%s_até_%s.$format",
-                    $dataInicial,
-                    $dataFinal
+                    preg_replace('/[^0-9\-]/', '', (string) $dataInicial),
+                    preg_replace('/[^0-9\-]/', '', (string) $dataFinal)
                 ),
                 $fileContents
             );

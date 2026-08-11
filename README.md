@@ -1,7 +1,7 @@
 
 ![MapOS](https://raw.githubusercontent.com/RamonSilva20/mapos/master/assets/img/logo.png)
 
-![version](https://img.shields.io/badge/version-4.53.2-blue.svg?longCache=true&style=flat-square)
+![version](https://img.shields.io/badge/version-4.54.0-blue.svg?longCache=true&style=flat-square)
 ![license](https://img.shields.io/badge/license-Apache-green.svg?longCache=true&style=flat-square)
 ![theme](https://img.shields.io/badge/theme-Matrix--Admin-lightgrey.svg?longCache=true&style=flat-square)
 ![issues](https://img.shields.io/github/issues/RamonSilva20/mapos.svg?longCache=true&style=flat-square)
@@ -34,6 +34,10 @@ https://chat.whatsapp.com/GVSg8tPQzXy0grfYpRfQps
 ### Manutenção do Projeto
 
 O **Map-OS** é um projeto de código aberto **mantido e desenvolvido pela empresa [MountBit](https://mountbit.com.br)**, responsável pela sua evolução contínua, correções e apoio à comunidade.
+
+### Contribuindo
+
+Quer ajudar a melhorar o Map-OS? Leia o **[Guia de Contribuição](CONTRIBUTING.md)** para saber como preparar o ambiente de desenvolvimento, o padrão de código adotado e como abrir um Pull Request.
 
 ### [Instalação](Instalacao_xampp_windows.md)
 
